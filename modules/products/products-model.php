@@ -3,6 +3,24 @@ include_once dirname(__FILE__) . "./../../libs/utiliy.php";
 
 $db = connectDB("localhost","bdd_gestion_des_stocks","root","root");
 
+function getProduct($id) {
+	global $db;
+​
+	$sql = "SELECT * FROM products WHERE id = :id";
+	$statement = $db->prepare($sql);
+	$statement->bindParam("id", $id, PDO::PARAM_INT);
+	$statement->execute();
+	return $statement->fetch(PDO::FETCH_OBJ);
+}
+​
+function getProducts() {
+	global $db;
+	$sql = "SELECt * FROM products";
+	$exec = $db->query($sql);
+	return $exec->fetchAll(PDO::FETCH_OBJ);
+​
+}
+
 function createProduct(){
 	global $db;
 	$sql = "INSERT INTO products (nom, prix, created_at)
